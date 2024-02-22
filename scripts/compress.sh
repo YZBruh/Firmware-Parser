@@ -65,4 +65,6 @@ else
     abort "İnvalid compression type!"
 fi
 
+cd "$DIR"
+
 # end od script
