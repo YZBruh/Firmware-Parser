@@ -25,9 +25,9 @@ find $(pwd) -type f -name "*.url" -exec sudo rm -rf {} \; -exec echo "Deleted: {
 find $(pwd) -type f -name "*.exe" -exec sudo rm -rf {} \; -exec echo "Deleted: {}" \;
 find $(pwd) -type d -name "META-INF" -exec sudo rm -rf {} \;
 
-if [[ $(find $(pwd) -name "*.img" -type f -exec tp=$(dirname "{}") \; -exec echo "$tp" > rom_path.cfg \;) ]]; then
+if [[ $(find $(pwd) -name "*.img" -type f -exec sh -c 'echo "$(dirname "{}")" > rom_path.cfg' \;) ]]; then
     echo
-elif [[ $(find $(pwd) -name "*.bin" -type f -exec tp=$(dirname "{}") \; -exec echo "$tp" > rom_path.cfg \;) ]]; then
+elif [[ $(find $(pwd) -name "*.bin" -type f -exec sh -c 'echo "$(dirname "{}")" > rom_path.cfg' \;) ]]; then
     echo
 else
     abort "There is no sign of ROM among the extracted ones!"
