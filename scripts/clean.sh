@@ -21,8 +21,8 @@ else
 fi
 
 # access the directory and start processes 
-find $(pwd) -type f -name "*.url" -exec sudo rm -rf {} && echo "Deleted: {}" \;
-find $(pwd) -type f -name "*.exe" -exec sudo rm -rf {} && echo "Deleted: {}" \;
+find $(pwd) -type f -name "*.url" -exec sudo rm -rf {} \; -exec echo "Deleted: {}" \;
+find $(pwd) -type f -name "*.exe" -exec sudo rm -rf {} \; -exec echo "Deleted: {}" \;
 find $(pwd) -type d -name "META-INF" -exec sudo rm -rf {} \;
 
 if [[ $(find $(pwd) -name "*.img" -type f -exec tp=$(dirname "{}") && echo "$tp" > rom_path.cfg \;) ]]; then
