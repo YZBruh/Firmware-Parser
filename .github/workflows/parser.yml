@@ -1,0 +1,93 @@
+name: Firmware Parser
+
+on:
+  workflow_dispatch:
+    inputs:
+      FIRMWARE_URL:
+        description: 'Stock ROM Link (directly)'
+        required: true
+        default: ''
+      TARGET_COMPERSSION:
+        description: 'Format to be used to compress packages'
+        required: true
+        default: ''
+        type: choice
+        options:
+        - xz
+        - gzip
+        - tar.xz
+        - tar.gz
+        - tar
+        - 7z
+        - zip
+        - lz4
+      TARGET_RLS_NAME:
+        description: 'Release name (optional)'
+        required: false
+        default: ''
+
+jobs:
+  build:
+    name: Firmware Parser
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-latest
+    env:
+      FUR: ${{ github.event.inputs.FIRMWARE_URL }}
+      RN: ${{ github.event.inputs.TARGET_RLS_NAME }}
+      CT: ${{ github.event.inputs.TARGET_COMPRESSION }}
+    permissions:
+      contents: write
+    steps:
+    - name: Check Out
+      uses: actions/checkout@v3
+      
+    - name: Cleanup
+      uses: rokibhasansagar/slimhub_actions@main
+      
+    - name: Set Swap Space
+      uses: pierotofy/set-swap-space@master
+      with:
+       swap-size-gb: 4
+
+    - name: Setup environment
+      run: |
+        cd /home
+        sudo mkdir parser
+        sudo mkdir parser/rom
+        sudo chmod -R 777 parser
+        cd parser
+        wget
+        wget
+        wget
+        sudo chmod 777 *
+        sudo apt update
+        sudo apt upgrade -y
+        sudo apt install -y lz4 gzip tar p7zip xz-utils git wget curl
+
+    - name: Download stock ROM
+      run: |
+        cd /home/parser/rom
+        wget ${{ env.FUR }}
+
+    - name: Extract stock ROM
+      run: |
+        cd /home/parser
+        bash extract.sh $(pwd)/rom
+        bash clean.sh $(pwd)/rom
+
+    - name: Compress images
+      run: |
+        cd /home/parser/rom
+        bash compress.sh ${{ env.CT }}
+
+    - name: Upload images to posts
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          /home/parser/out/*
+        name: ${{ eng.RN }} ${{ github.run_id }}
+        tag_name: ${{ github.run_id }}
+        body: |
+          Parsed ROM. Packed with ${{ env.CT }} compression type.
+      env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
