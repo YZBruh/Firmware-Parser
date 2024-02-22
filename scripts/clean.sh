@@ -21,10 +21,10 @@ else
 fi
 
 # access the directory and start processes 
-find $(pwd) -type f -name "*.url" -exec sudo rm -rf {} \; -exec echo "Deleted: {}" \;
-find $(pwd) -type f -name "*.exe" -exec sudo rm -rf {} \; -exec echo "Deleted: {}" \;
-find $(pwd) -type d -name "META-INF" -exec sudo rm -rf {} \;
+find "$(pwd)" -type f -name "*.url" -exec sudo rm -rf {} \; -exec echo "Deleted: {}" \;
+find "$(pwd)" -type f -name "*.exe" -exec sudo rm -rf {} \; -exec echo "Deleted: {}" \;
+find "$(pwd)" -type d -name "META-INF" -exec sudo rm -rf {} \;
 
-find $(pwd) -name "*.img" -type f -exec sh -c 'echo "$(dirname "{}")" > rom_path.cfg' \; || find $(pwd) -name "*.bin" -type f -exec sh -c 'echo "$(dirname "{}")" > rom_path.cfg' \;
+find "$(pwd)" -name "*.img" -type f -exec sh -c 'echo "$(dirname "{}")" > rom_path.cfg' \; || find "$(pwd)" -name "*.bin" -type f -exec sh -c 'echo "$(dirname "{}")" > rom_path.cfg' \;
 
 cd $DIR
