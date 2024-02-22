@@ -92,7 +92,7 @@ jobs:
       with:
         files: |
           /home/parser/out/*
-        name: ${{ eng.RN }} ${{ github.run_id }}
+        name: ${{ env.RN }} ${{ github.run_id }}
         tag_name: ${{ github.run_id }}
         body: |
           Parsed ROM. Packed with ${{ env.CT }} compression type.
