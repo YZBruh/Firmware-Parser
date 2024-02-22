@@ -15,8 +15,6 @@ on:
         options:
         - xz
         - gzip
-        - tar.xz
-        - tar.gz
         - tar
         - 7z
         - zip
