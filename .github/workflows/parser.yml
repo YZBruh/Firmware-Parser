@@ -54,13 +54,13 @@ jobs:
         sudo mkdir parser/rom
         sudo chmod -R 777 parser
         cd parser
-        wget
-        wget
-        wget
+        wget https://github.com/YZBruh/Firmware-Parser/raw/master/scripts/clean.sh
+        wget https://github.com/YZBruh/Firmware-Parser/raw/master/scripts/extract.sh
+        wget https://github.com/YZBruh/Firmware-Parser/raw/master/scripts/compress.sh
         sudo chmod 777 *
         sudo apt update
         sudo apt upgrade -y
-        sudo apt install -y lz4 gzip tar p7zip xz-utils git wget curl
+        sudo apt install -y lz4 gzip tar p7zip xz-utils git wget curl unrar
 
     - name: Download stock ROM
       run: |
@@ -71,12 +71,21 @@ jobs:
       run: |
         cd /home/parser
         bash extract.sh $(pwd)/rom
+        if [ -f exit_code.cfg ]; then
+            exit 1
+        fi
         bash clean.sh $(pwd)/rom
+        if [ -f exit_code.cfg ]; then
+            exit 1
+        fi
 
     - name: Compress images
       run: |
-        cd /home/parser/rom
-        bash compress.sh ${{ env.CT }}
+        cd /home/parser
+        bash compress.sh $(cat rom_path.cfg)
+        if [ -f exit_code.cfg ]; then
+            exit 1
+        fi
 
     - name: Upload images to posts
       uses: softprops/action-gh-release@v1
