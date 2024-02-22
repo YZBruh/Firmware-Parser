@@ -82,7 +82,7 @@ jobs:
     - name: Compress images
       run: |
         cd /home/parser
-        bash compress.sh $(cat rom_path.cfg)
+        bash compress.sh $(cat rom_path.cfg) ${{ env.CT }}
         if [ -f exit_code.cfg ]; then
             exit 1
         fi
