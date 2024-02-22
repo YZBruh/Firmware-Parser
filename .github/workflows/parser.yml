@@ -28,7 +28,7 @@ jobs:
   build:
     name: Firmware Parser
     if: github.event.repository.owner.id == github.event.sender.id
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       FUR: ${{ github.event.inputs.FIRMWARE_URL }}
       RN: ${{ github.event.inputs.TARGET_RLS_NAME }}
