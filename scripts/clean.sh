@@ -17,6 +17,7 @@ fi
 cd $TARGET_DIR || echo "1" > $DIR/exit_code.cfg && exit 1
 find $(pwd) -type f -name "*.url" -exec sudo rm -rf {} && echo "Deleted: {}" \;
 find $(pwd) -type f -name "*.exe" -exec sudo rm -rf {} && echo "Deleted: {}" \;
+find $(pwd) -type d -name "META-INF" -exec sudo rm -rf {} && echo "Deleted: {}" \;
 
 if [ -f system* ]; then
     echo "$(pwd)" > $DIR/rom_path.cfg
